@@ -1,0 +1,91 @@
+---
+import "../styles/GlobalStyles.css";
+---
+<script>
+    class AbvCalculator extends HTMLElement {
+        connectedCallback() {
+            const calculateButton = this.querySelector('#calculate-abv');
+
+            const abvResult = this.querySelector('#abv-result');
+            const attenResult = this.querySelector('#atten-result');
+
+            const originalGravity = (this.querySelector('#original-gravity') as HTMLInputElement);
+            const finalGravity = (this.querySelector('#final-gravity') as HTMLInputElement);
+
+            calculateButton?.addEventListener('click', () => {
+                const og = parseFloat(originalGravity.value);
+                const fg = parseFloat(finalGravity.value);
+                const abv = (og - fg) * 131.25;
+                const atten = (og - fg)/(og - 1) * 100;
+                
+                abvResult.textContent = abv.toFixed(2).toString().concat("%");
+                attenResult.textContent = atten.toFixed(2).toString().concat("%");
+            })
+        }
+    }
+    
+    customElements.define('abv-calculator', AbvCalculator);
+</script>
+
+<abv-calculator id="abv-wrapper">   
+    <h1>ABV Calculator</h1>
+    <form>
+        <fieldset>
+            <label for="original-gravity">Original Gravity(OG)</label>
+            <input type="text" id="original-gravity"/>
+        </fieldset>
+        <fieldset>
+            <label for="final-gravity">Final Gravity(FG)</label>
+            <input type="text" id="final-gravity"/>
+        </fieldset>
+        <button type="button" id="calculate-abv">Calculate</button>
+    </form>
+    <p>ABV: <span id="abv-result">0.00%</span> Attenuation: <span id="atten-result">0%</span></p>
+</abv-calculator> 
+
+<style>
+    #abv-wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    fieldset, form {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border: none;
+    }
+    button {
+        font-size: 2rem;
+        border-radius: 8px;
+        color: var(--header-text-color);
+        background-color: transparent;
+        margin-top: 8px;
+    }
+    h1, label, p {
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 1.5rem;
+        font-weight: 100;
+        color: var(--header-text-color);
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    input, input {
+        border: none;
+        border-radius: 2px;
+        font-size: 3rem;
+        height: 4rem;
+        width: 50%;
+    }
+    label {
+        width: fit-content;
+    }
+    p {
+        font-family: "Inter", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 100;
+        color: var(--result-text-color);
+    }
+</style>

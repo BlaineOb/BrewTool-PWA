@@ -1,0 +1,106 @@
+<script>
+    class SWTCalculator extends HTMLElement {
+        connectedCallback() {
+            const calculateButton = this.querySelector('#calculate-swt');
+
+            const strikeWaterVolForm = (this.querySelector('#volume') as HTMLInputElement);
+            const totalGrainWgtForm = (this.querySelector('#grain-weight') as HTMLInputElement);
+            const grainTempForm = (this.querySelector('#grain-temp') as HTMLInputElement);
+            const targetMashTempForm = (this.querySelector('#mash-temp') as HTMLInputElement);
+            const thermalLossTempForm = (this.querySelector('#loss-temp') as HTMLInputElement);
+
+            const strikeWaterTempResult = this.querySelector('#swt-result');
+
+            calculateButton?.addEventListener('click', () => {
+                const strikeWaterVol = parseFloat(strikeWaterVolForm.value);
+                const totalGrainWgt = parseFloat(totalGrainWgtForm.value);
+                const grainTemp = parseFloat(grainTempForm.value);
+                const targetMashTemp = parseFloat(targetMashTempForm.value);
+                const thermalLossTemp = parseFloat(thermalLossTempForm.value);
+
+                const grainHeat = totalGrainWgt * 0.05;
+                const mashHeat = grainHeat + strikeWaterVol;
+                const strikeWaterTemp = ((mashHeat * (targetMashTemp + thermalLossTemp))-(grainHeat * grainTemp))/strikeWaterVol;
+
+                strikeWaterTempResult.textContent = strikeWaterTemp.toFixed(2).toString();
+            })
+        }
+    }
+
+    customElements.define('swt-calculator', SWTCalculator);
+</script>
+
+<swt-calculator id="swtc-wrapper">
+    <h1>SWT Calculator</h1>
+    <form>
+        <fieldset>
+            <label for="volume">Strike Water Volume (Gallons)</label>
+            <input type="text" id="volume"/>
+        </fieldset>
+        <fieldset>
+            <label for="grain-weight">Total Grain Weight (Pounds)</label>
+            <input type="text" id="grain-weight"/>
+        </fieldset>
+        <fieldset>
+            <label for="grain-temp">Grain Temperature (°F)</label>
+            <input type="text" id="grain-temp"/>
+        </fieldset>
+        <fieldset>
+            <label for="mash-temp">Target Mash Temperature (°F)</label>
+            <input type="text" id="mash-temp"/>
+        </fieldset>
+        <fieldset>
+            <label for="loss-temp">Thermal Loss Temperature (°F)</label>
+            <input type="text" id="loss-temp"/>
+        </fieldset>
+        <button type="button" id="calculate-swt">Calculate</button>
+    </form>
+    <p>Strike Water Temperature: <span id="swt-result">0.00</span>°F</p>
+</swt-calculator>
+
+<style>
+    #swtc-wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    fieldset, form {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border: none;
+    }
+    h1, label {
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 1.5rem;
+        font-weight: 100;
+        color: var(--header-text-color);
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    input, input {
+        border: none;
+        border-radius: 2px;
+        font-size: 3rem;
+        height: 4rem;
+        width: 50%;
+    }
+    label {
+        width: fit-content;
+    }
+    p {
+        font-family: "Inter", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 100;
+        color: var(--result-text-color);
+    }
+    button {
+        font-size: 2rem;
+        border-radius: 8px;
+        color: var(--header-text-color);
+        background-color: transparent;
+        margin-top: 8px;
+    }
+</style>
