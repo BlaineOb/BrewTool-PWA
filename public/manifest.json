@@ -1,0 +1,21 @@
+{
+  "name": "BrewTool",
+  "description": "Calculators for common brewing calculations.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0A0A",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/beer_big_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
