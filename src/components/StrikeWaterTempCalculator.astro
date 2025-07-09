@@ -9,20 +9,27 @@
             const targetMashTempForm = (this.querySelector('#mash-temp') as HTMLInputElement);
             const thermalLossTempForm = (this.querySelector('#loss-temp') as HTMLInputElement);
 
-            const strikeWaterTempResult = this.querySelector('#swt-result');
+            const result = this.querySelector("#result");
+            let strikeWaterTempResult = this.querySelector('#swt-result');
 
             calculateButton?.addEventListener('click', () => {
+                result.innerHTML = 'Strike Water Temperature: <span id="swt-result">0.00</span>°F';
+                strikeWaterTempResult = this.querySelector('#swt-result');
                 const strikeWaterVol = parseFloat(strikeWaterVolForm.value);
                 const totalGrainWgt = parseFloat(totalGrainWgtForm.value);
                 const grainTemp = parseFloat(grainTempForm.value);
                 const targetMashTemp = parseFloat(targetMashTempForm.value);
                 const thermalLossTemp = parseFloat(thermalLossTempForm.value);
 
-                const grainHeat = totalGrainWgt * 0.05;
-                const mashHeat = grainHeat + strikeWaterVol;
-                const strikeWaterTemp = ((mashHeat * (targetMashTemp + thermalLossTemp))-(grainHeat * grainTemp))/strikeWaterVol;
+                if (isNaN(strikeWaterVol) || isNaN(totalGrainWgt) || isNaN(grainTemp) || isNaN(targetMashTemp) || isNaN(thermalLossTemp)) {
+                    result.textContent = "Numbers required in input fields";
+                } else {
+                    const grainHeat = totalGrainWgt * 0.05;
+                    const mashHeat = grainHeat + strikeWaterVol;
+                    const strikeWaterTemp = ((mashHeat * (targetMashTemp + thermalLossTemp))-(grainHeat * grainTemp))/strikeWaterVol;
 
-                strikeWaterTempResult.textContent = strikeWaterTemp.toFixed(2).toString();
+                    strikeWaterTempResult.textContent = strikeWaterTemp.toFixed(2).toString();
+                }
             })
         }
     }
@@ -55,7 +62,7 @@
         </fieldset>
         <button type="button" id="calculate-swt">Calculate</button>
     </form>
-    <p>Strike Water Temperature: <span id="swt-result">0.00</span>°F</p>
+    <p id="result">Strike Water Temperature: <span id="swt-result">0.00</span>°F</p>
 </swt-calculator>
 
 <style>
@@ -71,36 +78,32 @@
         flex-direction: column;
         border: none;
     }
-    h1, label {
-        font-family: Impact, Charcoal, sans-serif;
+    h1, label, p {
+        font-family: Arial, Helvetica, sans-serif;
         font-size: 1.5rem;
-        font-weight: 100;
         color: var(--header-text-color);
     }
     h1 {
         font-size: 2rem;
     }
-    input, input {
+    input {
         border: none;
         border-radius: 2px;
-        font-size: 3rem;
-        height: 4rem;
+        font-size: 2rem;
+        height: 3rem;
         width: 50%;
     }
     label {
         width: fit-content;
     }
     p {
-        font-family: "Inter", sans-serif;
-        font-size: 1.5rem;
-        font-weight: 100;
         color: var(--result-text-color);
     }
     button {
         font-size: 2rem;
         border-radius: 8px;
         color: var(--header-text-color);
-        background-color: transparent;
+        background-color: var(--calculate-button-color);
         margin-top: 8px;
     }
 </style>

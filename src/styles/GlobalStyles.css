@@ -78,4 +78,5 @@ h6 {
 :root {
   --header-text-color: white;
   --result-text-color: #bdbf09;
+  --calculate-button-color: #0f0f0f;
 }

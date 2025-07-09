@@ -6,20 +6,30 @@ import "../styles/GlobalStyles.css";
         connectedCallback() {
             const calculateButton = this.querySelector('#calculate-abv');
 
-            const abvResult = this.querySelector('#abv-result');
-            const attenResult = this.querySelector('#atten-result');
+            let abvResult = this.querySelector('#abv-result');
+            let attenResult = this.querySelector('#atten-result');
 
             const originalGravity = (this.querySelector('#original-gravity') as HTMLInputElement);
             const finalGravity = (this.querySelector('#final-gravity') as HTMLInputElement);
 
+            const result = (this.querySelector('#result') as HTMLInputElement);
+
             calculateButton?.addEventListener('click', () => {
+                result.innerHTML = 'ABV: <span id="abv-result">0.00%</span> Attenuation: <span id="atten-result">0%</span>';
+                abvResult = this.querySelector('#abv-result');
+                attenResult = this.querySelector('#atten-result');
                 const og = parseFloat(originalGravity.value);
                 const fg = parseFloat(finalGravity.value);
-                const abv = (og - fg) * 131.25;
-                const atten = (og - fg)/(og - 1) * 100;
+
+                if (isNaN(og) || isNaN(fg)) {
+                    result.textContent = "Numbers required in input fields";
+                } else {
+                    const abv = (og - fg) * 131.25;
+                    const atten = (og - fg)/(og - 1) * 100;
                 
-                abvResult.textContent = abv.toFixed(2).toString().concat("%");
-                attenResult.textContent = atten.toFixed(2).toString().concat("%");
+                    abvResult.textContent = abv.toFixed(2).toString().concat("%");
+                    attenResult.textContent = atten.toFixed(2).toString().concat("%");
+                }
             })
         }
     }
@@ -40,7 +50,7 @@ import "../styles/GlobalStyles.css";
         </fieldset>
         <button type="button" id="calculate-abv">Calculate</button>
     </form>
-    <p>ABV: <span id="abv-result">0.00%</span> Attenuation: <span id="atten-result">0%</span></p>
+    <p id="result">ABV: <span id="abv-result">0.00%</span> Attenuation: <span id="atten-result">0%</span></p>
 </abv-calculator> 
 
 <style>
@@ -49,7 +59,6 @@ import "../styles/GlobalStyles.css";
         align-items: center;
         flex-direction: column;
         width: 100%;
-        margin-top: 16px;
     }
     fieldset, form {
         display: flex;
@@ -61,32 +70,28 @@ import "../styles/GlobalStyles.css";
         font-size: 2rem;
         border-radius: 8px;
         color: var(--header-text-color);
-        background-color: transparent;
+        background-color: var(--calculate-button-color);
         margin-top: 8px;
     }
     h1, label, p {
-        font-family: Impact, Charcoal, sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
         font-size: 1.5rem;
-        font-weight: 100;
         color: var(--header-text-color);
     }
     h1 {
         font-size: 2rem;
     }
-    input, input {
+    input {
         border: none;
         border-radius: 2px;
-        font-size: 3rem;
-        height: 4rem;
+        font-size: 2rem;
+        height: 3rem;
         width: 50%;
     }
     label {
         width: fit-content;
     }
     p {
-        font-family: "Inter", sans-serif;
-        font-size: 1.5rem;
-        font-weight: 100;
         color: var(--result-text-color);
     }
 </style>
