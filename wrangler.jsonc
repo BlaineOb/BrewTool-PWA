@@ -4,5 +4,11 @@
   "compatibility_date": "2025-07-06",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "brew-tool.com",
+      "custom_domain": true
+    }
+  ]
 }
