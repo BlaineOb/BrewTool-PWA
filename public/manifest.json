@@ -12,6 +12,12 @@
       "purpose": "any"
     },
     {
+      "src": "/beer_medium_icon.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "/beer_big_icon.png",
       "sizes": "512x512",
       "type": "image/png",
