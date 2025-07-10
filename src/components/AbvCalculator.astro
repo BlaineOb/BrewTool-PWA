@@ -9,21 +9,23 @@ import "../styles/GlobalStyles.css";
             const originalGravity = (this.querySelector('#original-gravity') as HTMLInputElement);
             const finalGravity = (this.querySelector('#final-gravity') as HTMLInputElement);
 
-            const result = (this.querySelector('#result') as HTMLElement);
+            const abvResult = (this.querySelector('#abv-result') as HTMLElement);
+            const attenResult = (this.querySelector('#atten-result') as HTMLElement);
 
             calculateButton?.addEventListener('click', () => {
                 const og = parseFloat(originalGravity.value);
                 const fg = parseFloat(finalGravity.value);
-
                 if (isNaN(og) || isNaN(fg)) {
-                    result.textContent = "Numbers required in input fields";
+                    abvResult.textContent = "Numbers required in input fields";
+                    attenResult.textContent = '';
                 } else {
                     const abv = (og - fg) * 131.25;
                     const atten = (og - fg)/(og - 1) * 100;
                 
-                    const abvResult = abv.toFixed(2).toString().concat("%");
-                    const attenResult = atten.toFixed(2).toString().concat("%");
-                    result.textContent = 'ABV: '.concat(abvResult, ' Attenuation: ', attenResult);
+                    const abvResultString = abv.toFixed(2).toString().concat("%");
+                    const attenResultString = atten.toFixed(2).toString().concat("%");
+                    abvResult.textContent = 'ABV: '.concat(abvResultString);
+                    attenResult.textContent = 'Attenuation: '.concat(attenResultString);
                 }
             })
         }
@@ -45,7 +47,7 @@ import "../styles/GlobalStyles.css";
         </fieldset>
         <button type="button" id="calculate-abv">Calculate</button>
     </form>
-    <p id="result"></p>
+    <p id="abv-result"></p><p id="atten-result"></p>
 </abv-calculator> 
 
 <style>
@@ -88,5 +90,11 @@ import "../styles/GlobalStyles.css";
     }
     p {
         color: var(--result-text-color);
+    }
+    #abv-result {
+        padding-bottom: 0;
+    }
+    #atten-result {
+        padding-top: 0;
     }
 </style>
