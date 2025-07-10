@@ -6,18 +6,12 @@ import "../styles/GlobalStyles.css";
         connectedCallback() {
             const calculateButton = this.querySelector('#calculate-abv');
 
-            let abvResult = this.querySelector('#abv-result');
-            let attenResult = this.querySelector('#atten-result');
-
             const originalGravity = (this.querySelector('#original-gravity') as HTMLInputElement);
             const finalGravity = (this.querySelector('#final-gravity') as HTMLInputElement);
 
-            const result = (this.querySelector('#result') as HTMLInputElement);
+            const result = (this.querySelector('#result') as HTMLElement);
 
             calculateButton?.addEventListener('click', () => {
-                result.innerHTML = 'ABV: <span id="abv-result">0.00%</span> Attenuation: <span id="atten-result">0%</span>';
-                abvResult = this.querySelector('#abv-result');
-                attenResult = this.querySelector('#atten-result');
                 const og = parseFloat(originalGravity.value);
                 const fg = parseFloat(finalGravity.value);
 
@@ -27,8 +21,9 @@ import "../styles/GlobalStyles.css";
                     const abv = (og - fg) * 131.25;
                     const atten = (og - fg)/(og - 1) * 100;
                 
-                    abvResult.textContent = abv.toFixed(2).toString().concat("%");
-                    attenResult.textContent = atten.toFixed(2).toString().concat("%");
+                    const abvResult = abv.toFixed(2).toString().concat("%");
+                    const attenResult = atten.toFixed(2).toString().concat("%");
+                    result.textContent = 'ABV: '.concat(abvResult, ' Attenuation: ', attenResult);
                 }
             })
         }
@@ -50,7 +45,7 @@ import "../styles/GlobalStyles.css";
         </fieldset>
         <button type="button" id="calculate-abv">Calculate</button>
     </form>
-    <p id="result">ABV: <span id="abv-result">0.00%</span> Attenuation: <span id="atten-result">0%</span></p>
+    <p id="result"></p>
 </abv-calculator> 
 
 <style>

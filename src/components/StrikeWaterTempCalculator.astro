@@ -9,12 +9,9 @@
             const targetMashTempForm = (this.querySelector('#mash-temp') as HTMLInputElement);
             const thermalLossTempForm = (this.querySelector('#loss-temp') as HTMLInputElement);
 
-            const result = this.querySelector("#result");
-            let strikeWaterTempResult = this.querySelector('#swt-result');
+            const result = (this.querySelector("#result") as HTMLElement);
 
             calculateButton?.addEventListener('click', () => {
-                result.innerHTML = 'Strike Water Temperature: <span id="swt-result">0.00</span>°F';
-                strikeWaterTempResult = this.querySelector('#swt-result');
                 const strikeWaterVol = parseFloat(strikeWaterVolForm.value);
                 const totalGrainWgt = parseFloat(totalGrainWgtForm.value);
                 const grainTemp = parseFloat(grainTempForm.value);
@@ -28,7 +25,8 @@
                     const mashHeat = grainHeat + strikeWaterVol;
                     const strikeWaterTemp = ((mashHeat * (targetMashTemp + thermalLossTemp))-(grainHeat * grainTemp))/strikeWaterVol;
 
-                    strikeWaterTempResult.textContent = strikeWaterTemp.toFixed(2).toString();
+                    const swtResult = strikeWaterTemp.toFixed(2).toString().concat('°F');
+                    result.textContent = 'SWT: '.concat(swtResult);
                 }
             })
         }
@@ -62,7 +60,7 @@
         </fieldset>
         <button type="button" id="calculate-swt">Calculate</button>
     </form>
-    <p id="result">Strike Water Temperature: <span id="swt-result">0.00</span>°F</p>
+    <p id="result"></p>
 </swt-calculator>
 
 <style>
