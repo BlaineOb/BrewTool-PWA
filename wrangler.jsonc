@@ -1,9 +1,11 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "brewtool-pwa",
+  "main": "./dist/_worker.js/index.js",
   "compatibility_date": "2025-07-06",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "binding": "ASSETS"
   },
   "routes": [
     {
